@@ -6,12 +6,13 @@ The goal is to demonstrate how computer vision can be applied to real-world use 
 
 ---
 
-## 🧠 Project Goals
+## 🧐 Project Goals
 
-- Train and evaluate a CNN-based food classifier
-- Explore transfer learning with pretrained EfficientNet
-- Deploy a reusable image classification pipeline
-- Lay the groundwork for an AI system that connects food recognition to nutritional insights
+* Train and evaluate a CNN-based food classifier
+* Explore transfer learning with pretrained EfficientNet and MobileNetV2
+* Evaluate performance using Top1/Top-5 accuracy, confusion matrix, and precision/recall
+* Deploy a Gradio UI to interactively test predictions
+* Lay the groundwork for a system that connects food recognition to nutritional insights
 
 ---
 
@@ -19,87 +20,102 @@ The goal is to demonstrate how computer vision can be applied to real-world use 
 
 ```text
 food-vision/
-├── data/                  # Food-101 dataset
-├── notebooks/             # EDA + training experiments
-├── src/                   # Training, evaluation, model code
-├── outputs/               # Saved model weights and sample outputs
-├── streamlit_app/         # (Optional) simple web demo
-├── requirements.txt
-└── README.md
+├── notebooks/             # Training, evaluation, and visualization notebooks
+├── gradio_app.py          # Simple interactive demo using Gradio
+├── requirements.txt       # Dependency list
+├── README.md              # Project overview and instructions
 ```
 
 ## 📊 Dataset
 
-Name:        Food-101  
-Link:        https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/  
-Classes:     101 food types (e.g., pizza, sushi, pad thai)  
-Samples:     101,000 images (750 train / 250 test per class)  
-Access via:  tensorflow_datasets or manual download  
+* **Name**: Food-101
+* **Link**: [Food-101 Dataset](https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/)
+* **Access**: `tensorflow_datasets`
+* **Classes**: 101 food types (e.g., pizza, sushi, pad thai)
+* **Size**: 101,000 images (750 train / 250 test per class)
 
+```python
+import tensorflow_datasets as tfds
+(train_ds, val_ds), ds_info = tfds.load(
+    'food101',
+    split=['train', 'validation'],
+    as_supervised=True,
+    with_info=True
+)
+```
+
+---
 
 ## 🚀 How to Run
-``` text
+
+```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/food-vision.git
+git clone https://github.com/Lordd007/Food-Image-Classifier-Deep-Learning-for-Nutritional-AI.git
 cd food-vision
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Download the dataset
-# Run this in a Python script or notebook
-import tensorflow_datasets as tfds
-tfds.load("food101", split='train', with_info=True, as_supervised=True)
+# 3. Run model training (in Jupyter or Colab)
+jupyter notebook  # or open Food101_Training.ipynb in Colab
 
-# 4. Train the model
+# 4. Launch interactive Gradio demo (optional)
+python gradio_app.py  # or run in notebook with share=True
 
-python src/train.py
-
-# 5. Run the optional Streamlit demo
-
-streamlit run streamlit_app/app.py
 ```
 
-## 🧪 Model Performance
+---
 
-Model:           EfficientNetB0 (Transfer Learning)  
-Top-1 Accuracy:  ~75% (on test set)  
-Top-5 Accuracy:  Optional extension  
-Loss Function:   Categorical Crossentropy  
-Optimizer:       Adam  
+## 📊 Model Performance
 
+* **Base Model**: EfficientNetB0 (also tested MobileNetV2)
+* **Fine-tuned**: Yes (after initial training)
+* **Top-1 Accuracy**: \~58.5%
+* **Top-5 Accuracy**: \~83%
+* **Loss Function**: Sparse Categorical Crossentropy
+* **Optimizer**: Adam
+* **Evaluation**: Confusion matrix, classification report, precision/recall per class
 
-## 📸 Sample Predictions
+---
 
-(Include visuals in outputs/sample_predictions/ or as a grid in your Streamlit app)
+## 📸 Gradio Demo
 
+Upload a food image and get:
+
+* Top-5 predicted labels with confidence
+* The predicted label overlaid on the image
+
+> Run with: `demo.launch(share=True)` in the notebook or script.
+
+---
 
 ## 🔮 Future Plans
 
-- Add OCR pipeline to extract nutrition facts from food packaging  
-- Parse ingredients and nutrient information using NLP  
-- Recommend dietary changes based on user health profiles  
-- Wrap entire system into a health-focused AI recommendation engine  
+* OCR pipeline to extract nutrition facts from packaging
+* NLP analysis to parse ingredients and macro/micronutrients
+* Integrate user health profiles for dietary recommendations
+* Build a recommendation engine using image + text inputs
+* Consider mobile deployment with TensorFlow Lite
 
+---
 
+## 🛠️ Tech Stack
 
-## 🧰 Technologies Used
+* **Languages**: Python 3.10+
+* **Libraries**: TensorFlow, NumPy, Pandas, scikit-learn, Matplotlib, Seaborn
+* **Visualization**: Gradio, Seaborn heatmaps, bar plots
+* **Deployment**: Gradio (with option for Hugging Face Spaces)
 
-Languages:     Python 3.10+  
-Libraries:     TensorFlow, TensorFlow Datasets, NumPy, Pandas, Matplotlib  
-Modeling:      EfficientNet, CNNs, Transfer Learning  
-Optional:      Streamlit (for web demo), Docker (for packaging)  
-
+---
 
 ## 👤 Author
 
-David Lord  
-Deep Learning & Data Science Portfolio  
-Email:     lordd007@gmail.com
-GitHub:    https://github.com/Lordd007  
-LinkedIn:  https://www.linkedin.com/in/david-lord-data-guy
+**David Lord**
+Deep Learning & Data Science Portfolio
+**Email**: [lordd007@gmail.com](mailto:lordd007@gmail.com)
+**GitHub**: [github.com/Lordd007](https://github.com/Lordd007)
+**LinkedIn**: [linkedin.com/in/david-lord-data-guy](https://www.linkedin.com/in/david-lord-data-guy)
 
+---
 
-
-
-
+Feel free to open an issue or contact me if you'd like to collaborate or learn more!
